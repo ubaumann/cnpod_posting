@@ -1,0 +1,19 @@
+{{- range $i, $pod := $.Values.pods }}
+{{- range $.Values.devices }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: device-{{ . }}-{{ $pod }}
+data:
+  hostname: "{{ . }}-pod-{{ $pod }}.network.garden"
+{{- end }}
+{{- end }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: device-secret
+stringData:
+  username: "admin"
+  password: "admin"

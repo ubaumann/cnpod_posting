@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ganglion
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ganglion
+  template:
+    metadata:
+      labels:
+        app: ganglion
+    spec:
+      initContainers:
+        - name: ganglion-init
+          image: busybox  # ToDo
+          command: ["ganglion", "db-init"]
+      containers:
+        - name: ganglion
+          image: ganglion:latest
+          ports:
+            - containerPort: 8080
+{{- range $i, $pod := $.Values.pods }}
+{{- range $.Values.devices }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posting-{{ . }}-{{ $pod }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: posting-{{ . }}-{{ $pod }}
+  template:
+    metadata:
+      labels:
+        app: posting-{{ . }}-{{ $pod }}
+    spec:
+      containers:
+        - name: poster
+          image: busybox  # ToDo
+          command: ["sh", "-c", "posting --collection ."]
+          env:
+            - name: DEVICE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: device-secret
+                  key: username
+            - name: DEVICE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: device-secret
+                  key: password
+            - name: DEVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: device-{{ . }}-{{ $pod }}
+                  key: hostname
+{{- end }}
+{{- end }}
