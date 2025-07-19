@@ -17,6 +17,9 @@ spec:
         - name: ganglion-init
           image: busybox  # ToDo
           command: ["ganglion", "db-init"]
+          volumeMounts:
+            - name: ganglion-token-vol
+              mountPath: /mnt/token
       containers:
         - name: ganglion
           image: ganglion:latest
@@ -41,8 +44,7 @@ spec:
     spec:
       containers:
         - name: poster
-          image: busybox  # ToDo
-          command: ["sh", "-c", "posting --collection ."]
+          image: ghcr.io/ubaumann/cn_posting_collection
           env:
             - name: DEVICE_USER
               valueFrom:
@@ -59,5 +61,8 @@ spec:
                 configMapKeyRef:
                   name: device-{{ . }}-{{ $pod }}
                   key: hostname
+          volumeMounts:
+            - name: ganglion-token-vol
+              mountPath: /mnt/token
 {{- end }}
 {{- end }}
