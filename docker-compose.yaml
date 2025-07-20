@@ -1,0 +1,41 @@
+services:
+  ganglion:
+    image: ghcr.io/ubaumann/cnpod_posting:main
+    ports:
+      - "8080:8080"
+    command: ["sh", "-c", "ganglion initdb && ganglion serve"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - backend
+  sw01:
+    image: "ghcr.io/ubaumann/cn_posting_collection:main"
+    environment:
+      - DEVICE=sw01-pod-1.network.garden
+      - DEVICE_USER=${DEVICE_USER:-username}
+      - DEVICE_PASSWORD=${DEVICE_PASSWORD:-password}
+      - API_SERVER=ganglion:8080
+    depends_on:
+      ganglion:
+        condition: service_healthy
+    networks:
+      - backend
+  sw02:
+    image: "ghcr.io/ubaumann/cn_posting_collection:main"
+    environment:
+      - DEVICE=sw02-pod-1.network.garden
+      - DEVICE_USER=${DEVICE_USER:-username}
+      - DEVICE_PASSWORD=${DEVICE_PASSWORD:-password}
+      - API_SERVER=ganglion:8080
+    depends_on:
+      ganglion:
+        condition: service_healthy
+    networks:
+      - backend
+
+networks:
+  backend:
