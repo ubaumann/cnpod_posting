@@ -3,13 +3,15 @@ services:
     image: ghcr.io/ubaumann/cnpod_posting:main
     ports:
       - "8080:8080"
-    command: ["sh", "-c", "ganglion initdb && ganglion serve"]
+    command: ["sh", "-c", "python init.py && ganglion serve"]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080"]
       interval: 1m30s
       timeout: 30s
       retries: 5
       start_period: 30s
+    volumes:
+      - account-keys:/data/.keys
     networks:
       - backend
   sw01:
@@ -19,9 +21,13 @@ services:
       - DEVICE_USER=${DEVICE_USER:-username}
       - DEVICE_PASSWORD=${DEVICE_PASSWORD:-password}
       - API_SERVER=ganglion:8080
+      - APP_NAME=sw01
+      - APP_ACCOUNT=pod-1
     depends_on:
       ganglion:
         condition: service_healthy
+    volumes:
+      - account-keys:/data/.keys
     networks:
       - backend
   sw02:
@@ -31,11 +37,18 @@ services:
       - DEVICE_USER=${DEVICE_USER:-username}
       - DEVICE_PASSWORD=${DEVICE_PASSWORD:-password}
       - API_SERVER=ganglion:8080
+      - APP_NAME=sw02
+      - APP_ACCOUNT=pod-1
     depends_on:
       ganglion:
         condition: service_healthy
+    volumes:
+      - account-keys:/data/.keys
     networks:
       - backend
+
+volumes:
+  account-keys:
 
 networks:
   backend:
