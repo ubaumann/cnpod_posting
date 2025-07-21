@@ -1,21 +1,25 @@
 import asyncio
-from ganglion import context
 from ganglion.config import load_config
-from ganglion.db import init_db, create_user, create_account
-from ganglion.models import Base
+from ganglion.db import init_db, db_session, create_account  # create_user
+from ganglion.cli import app
 
 async def main():
     """
     Init db and create accounts
     """
+    
     config = load_config("ganglion-local.toml")
 
-    engine = await init_db(config)
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
-    await create_account("pod-1", "pod-1", [])    
-
+    await init_db(config)
+    async with db_session():
+        # user = await create_user("name", "email", "password")
+        account, api_key = await create_account("pod-1", "pod-1", [])
+        print(f"Created account: {account!r}")
+        print(f"{api_key.key=}")
 
 if __name__ == "__main__":
+    # Call "ganglion initdb"
+    app(["initdb"], auto_envvar_prefix="GANGLION", standalone_mode=False)
+    
+    # Create accounts
     asyncio.run(main())
