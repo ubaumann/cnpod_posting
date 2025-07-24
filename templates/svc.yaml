@@ -4,6 +4,7 @@ metadata:
   labels:
     app: ganglion
   name: ganglion
+  namespace: cn-posting
 spec:
   ports:
   - name: web
