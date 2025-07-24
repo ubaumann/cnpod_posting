@@ -17,7 +17,7 @@ spec:
       initContainers:
         - name: ganglion-init
           image: {{ $.Values.image_ganglion }}
-          command: ["ganglion", "db-init"]
+          command: ["python", "init.py"]
           volumeMounts:
             - name: ganglion-token-vol
               mountPath: /mnt/token
