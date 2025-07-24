@@ -5,7 +5,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: device-{{ . }}-{{ $pod }}
-  namespace: cn-posting
+  namespace: {{ $.Values.namespace }}
 data:
   hostname: "{{ . }}-pod-{{ $pod }}.network.garden"
 {{- end }}
@@ -15,7 +15,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: device-secret
-  namespace: cn-posting
+  namespace: {{ $.Values.namespace }}
 stringData:
   username: "admin"
   password: "admin"

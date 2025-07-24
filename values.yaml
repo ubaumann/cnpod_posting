@@ -1,4 +1,6 @@
 ---
+namespace: cn-posting
+
 pods:
   - pod-1
   - pod-2
@@ -10,3 +12,16 @@ pods:
   - pod-8
   - pod-9
 devices: ["sw01", "sw02", "sw03", "sw04", "rt01", "rt02" ]
+
+image_ganglion: ghcr.io/ubaumann/cnpod_posting:main
+image_poster: ghcr.io/ubaumann/cn_posting_collection:main
+
+resources_requests_cpu_ganglion: 20m
+resources_requests_memory_ganglion: 100Mi
+resources_limits_cpu_ganglion: 250m
+resources_limits_memory_ganglion: 400Mi
+
+resources_requests_cpu_posting: 20m
+resources_requests_memory_posting: 100Mi
+resources_limits_cpu_posting: 250m
+resources_limits_memory_posting: 400Mi

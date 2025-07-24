@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ganglion
-  namespace: cn-posting
+  namespace: {{ $.Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -16,23 +16,23 @@ spec:
     spec:
       initContainers:
         - name: ganglion-init
-          image: busybox  # ToDo
+          image: {{ $.Values.image_ganglion }}
           command: ["ganglion", "db-init"]
           volumeMounts:
             - name: ganglion-token-vol
               mountPath: /mnt/token
       containers:
         - name: ganglion
-          image: ganglion:latest
+          image: {{ $.Values.image_ganglion }}
           ports:
             - containerPort: 8080
           resources:
             requests:
-              cpu: 20m
-              memory: 100Mi
+              cpu: {{ $.Values.resources_requests_cpu_ganglion }}
+              memory: {{ $.Values.resources_requests_memory_ganglion }}
             limits:
-              cpu: 250m
-              memory: 400Mi
+              cpu: {{ $.Values.resources_limits_cpu_ganglion }}
+              memory: {{ $.Values.resources_limits_memory_ganglion }}
 {{- range $i, $pod := $.Values.pods }}
 {{- range $.Values.devices }}
 ---
@@ -40,7 +40,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: posting-{{ . }}-{{ $pod }}
-  namespace: cn-posting
+  namespace: {{ $.Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -53,14 +53,14 @@ spec:
     spec:
       containers:
         - name: poster
-          image: ghcr.io/ubaumann/cn_posting_collection
+          image: {{ $.Values.image_posting }}
           resources:
             requests:
-              cpu: 20m
-              memory: 100Mi
+              cpu: {{ $.Values.resources_requests_cpu_posting }}
+              memory: {{ $.Values.resources_requests_memory_posting }}
             limits:
-              cpu: 250m
-              memory: 400Mi
+              cpu: {{ $.Values.resources_limits_cpu_posting }}
+              memory: {{ $.Values.resources_limits_memory_posting }}
           env:
             - name: DEVICE_USER
               valueFrom:
