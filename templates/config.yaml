@@ -1,3 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ganglion-accounts
+  namespace: {{ $.Values.namespace }}
+data:
+  accounts: {{ $.Values.pods | join ";" }}
 {{- range $i, $pod := $.Values.pods }}
 {{- range $.Values.devices }}
 ---
