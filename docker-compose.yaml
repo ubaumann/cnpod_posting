@@ -1,6 +1,8 @@
 services:
   ganglion:
     image: ghcr.io/ubaumann/cnpod_posting:main
+    environment:
+      - ACCOUNTS=pod-1;pod-2
     ports:
       - "8080:8080"
     command: ["sh", "-c", "python init.py && ganglion serve"]
@@ -14,7 +16,7 @@ services:
       - account-keys:/data/.keys
     networks:
       - backend
-  sw01:
+  sw01-pod-1:
     image: "ghcr.io/ubaumann/cn_posting_collection:main"
     environment:
       - DEVICE=sw01-pod-1.network.garden
@@ -30,7 +32,7 @@ services:
       - account-keys:/data/.keys
     networks:
       - backend
-  sw02:
+  sw02-pod-1:
     image: "ghcr.io/ubaumann/cn_posting_collection:main"
     environment:
       - DEVICE=sw02-pod-1.network.garden
@@ -39,6 +41,22 @@ services:
       - API_SERVER=ganglion:8080
       - APP_NAME=sw02
       - APP_ACCOUNT=pod-1
+    depends_on:
+      ganglion:
+        condition: service_healthy
+    volumes:
+      - account-keys:/data/.keys
+    networks:
+      - backend
+  sw01-pod-2:
+    image: "ghcr.io/ubaumann/cn_posting_collection:main"
+    environment:
+      - DEVICE=sw01-pod-2.network.garden
+      - DEVICE_USER=${DEVICE_USER:-username}
+      - DEVICE_PASSWORD=${DEVICE_PASSWORD:-password}
+      - API_SERVER=ganglion:8080
+      - APP_NAME=sw01
+      - APP_ACCOUNT=pod-2
     depends_on:
       ganglion:
         condition: service_healthy

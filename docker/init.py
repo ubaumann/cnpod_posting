@@ -1,3 +1,4 @@
+import os
 import asyncio
 from pathlib import Path
 from ganglion.config import load_config
@@ -17,14 +18,15 @@ async def main():
     await init_db(config)
     async with db_session():
         # user = await create_user("name", "email", "password")
-        account_name = "pod-1"
-        account, api_key = await create_account(account_name, account_name, [])
-        print(f"Created account: {account!r}")
-        print(f"{api_key.key=}")
+        account_names = os.getenv("ACCOUNTS", "").split(";")
+        for account_name in account_names:
+            account, api_key = await create_account(account_name, account_name, [])
+            print(f"Created account: {account!r}")
+            print(f"{api_key.key=}")
 
-        key_file = KEY_DIRECTORY / account_name
-        with key_file.open("w") as fp:
-            fp.write(api_key.key)
+            key_file = KEY_DIRECTORY / account_name
+            with key_file.open("w") as fp:
+                fp.write(api_key.key)
 
 
 if __name__ == "__main__":
