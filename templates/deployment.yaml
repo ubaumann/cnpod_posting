@@ -25,6 +25,13 @@ spec:
           image: ganglion:latest
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              cpu: 20m
+              memory: 100Mi
+            limits:
+              cpu: 250m
+              memory: 400Mi
 {{- range $i, $pod := $.Values.pods }}
 {{- range $.Values.devices }}
 ---
@@ -45,6 +52,13 @@ spec:
       containers:
         - name: poster
           image: ghcr.io/ubaumann/cn_posting_collection
+          resources:
+            requests:
+              cpu: 20m
+              memory: 100Mi
+            limits:
+              cpu: 250m
+              memory: 400Mi
           env:
             - name: DEVICE_USER
               valueFrom:
