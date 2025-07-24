@@ -12,6 +12,7 @@ pods:
   - pod-8
   - pod-9
 devices: ["sw01", "sw02", "sw03", "sw04", "rt01", "rt02" ]
+device_mgmt_cidr: 10.8.40.0/24
 
 image_ganglion: ghcr.io/ubaumann/cnpod_posting:main
 image_poster: ghcr.io/ubaumann/cn_posting_collection:main
