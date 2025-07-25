@@ -68,6 +68,7 @@ services:
 
 volumes:
   account-keys:
+  sqlide-data:
 
 networks:
   backend:

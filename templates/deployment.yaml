@@ -33,7 +33,9 @@ spec:
               memory: {{ $.Values.resources_limits_memory_ganglion }}
           volumeMounts:
             - name: ganglion-token-vol
-              mountPath: /mnt/token
+              mountPath: /data/.keys
+            - name: ganglion-sqlite-vol
+              mountPath: /data/db
       containers:
         - name: ganglion
           image: {{ $.Values.image_ganglion }}
@@ -92,6 +94,6 @@ spec:
                   key: hostname
           volumeMounts:
             - name: ganglion-token-vol
-              mountPath: /mnt/token
+              mountPath: /data/.keys
 {{- end }}
 {{- end }}
