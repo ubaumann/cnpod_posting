@@ -21,3 +21,8 @@
 .idea/
 *.tmproj
 .vscode/
+.github/
+.docker/
+docker-compose.yaml
+.env
+.env-example
