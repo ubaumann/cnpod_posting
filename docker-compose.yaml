@@ -5,7 +5,7 @@ services:
       - ACCOUNTS=pod-1;pod-2
     ports:
       - "8080:8080"
-    command: ["sh", "-c", "python init.py && ganglion serve"]
+    command: ["sh", "-c", "python init.py && ganglion serve --config ganglion-local.toml"]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080"]
       interval: 1m30s
@@ -14,6 +14,7 @@ services:
       start_period: 30s
     volumes:
       - account-keys:/data/.keys
+      - sqlide-data:/data/db
     networks:
       - backend
   sw01-pod-1:

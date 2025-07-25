@@ -18,6 +18,6 @@ url = "/static/"
 
 [db]
 # sqlalchemy async database URL
-url = "sqlite+aiosqlite:///./ganglion.db"
+url = "sqlite+aiosqlite:///./db/ganglion.db"
 # Consider Postgres for production
 #url = "postgresql+asyncpg://postgres:password@localhost/ganglion"
