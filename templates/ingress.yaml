@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: posting.stud.network.garden
+    - host: {{ $.Values.ingress_fqdn}}
       http:
         paths:
           - pathType: Prefix
