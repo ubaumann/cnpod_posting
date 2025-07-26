@@ -6,14 +6,14 @@ from ganglion.db import init_db, db_session, create_account  # create_user
 from ganglion.cli import app
 
 KEY_DIRECTORY = Path(".keys/")
-
+CONFIG_FILE = "ganglion-local.toml"
 
 async def main():
     """
     Create API keys (accounts)
     """
 
-    config = load_config("ganglion-local.toml")
+    config = load_config(CONFIG_FILE)
 
     await init_db(config)
     async with db_session():
@@ -31,7 +31,7 @@ async def main():
 
 if __name__ == "__main__":
     # Call "ganglion initdb"
-    app(["initdb"], auto_envvar_prefix="GANGLION", standalone_mode=False)
+    app(["initdb", "--config", CONFIG_FILE], auto_envvar_prefix="GANGLION", standalone_mode=False)
 
     # Create accounts
     asyncio.run(main())
