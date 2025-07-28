@@ -1,3 +1,4 @@
 docker/.venv
+docker/.keys
 **/ganglion.db
 .env
