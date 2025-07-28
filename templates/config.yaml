@@ -25,5 +25,5 @@ metadata:
   name: device-secret
   namespace: {{ $.Values.namespace }}
 stringData:
-  username: "admin"
-  password: "admin"
+  username: "{{ $.Values.device_username }}"
+  password: "{{ $.Values.device_password }}"
