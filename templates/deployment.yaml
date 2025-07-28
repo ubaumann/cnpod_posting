@@ -103,6 +103,12 @@ spec:
                 configMapKeyRef:
                   name: device-{{ . }}-{{ $pod }}
                   key: hostname
+            - name: APP_NAME
+              value: {{ . }}
+            - name: APP_ACCOUNT
+              value: {{ $pod }}
+            - name: API_SERVER
+              value: ganglion:80
           volumeMounts:
             - name: ganglion-token-vol
               mountPath: /data/.keys
