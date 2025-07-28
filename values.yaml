@@ -19,7 +19,7 @@ device_password: addmin
 ingress_fqdn: posting.stud.network.garden
 
 image_ganglion: ghcr.io/ubaumann/cnpod_posting:main
-image_poster: ghcr.io/ubaumann/cn_posting_collection:main
+image_posting: ghcr.io/ubaumann/cn_posting_collection:main
 
 resources_requests_cpu_ganglion: 20m
 resources_requests_memory_ganglion: 100Mi
