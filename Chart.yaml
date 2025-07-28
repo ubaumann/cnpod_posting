@@ -1,6 +1,6 @@
 apiVersion: v2
-name: cn_posting
-description: A Helm chart for Kubernetes
+name: cn_posting_chart
+description: A Helm chart for CN Lab Posting setup 
 type: application
 version: 0.1.0
 
