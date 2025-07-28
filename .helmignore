@@ -21,8 +21,10 @@
 .idea/
 *.tmproj
 .vscode/
+# Own
 .github/
-.docker/
+docker
 docker-compose.yaml
 .env
 .env-example
+.helmignore
