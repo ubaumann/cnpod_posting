@@ -21,6 +21,12 @@ ingress_fqdn: posting.stud.network.garden
 image_ganglion: ghcr.io/ubaumann/cnpod_posting:v0.1.0
 image_posting: ghcr.io/ubaumann/cn_posting_collection:v0.1.0
 
+# Used for encryption of API keys
+crypto_key:  # "yJ3RNNOyeGc2NRVzR4PbwKf79_D9fQtlvCL7cIcXJKQ="  # Example key, replace with your own
+
+# Use http GET instead shared file system for API keys
+use_http_get: true
+
 resources_requests_cpu_ganglion: 20m
 resources_requests_memory_ganglion: 100Mi
 resources_limits_cpu_ganglion: 250m

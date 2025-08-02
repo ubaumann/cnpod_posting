@@ -14,3 +14,22 @@ spec:
   selector:
     app: ganglion
   type: ClusterIP
+{{- if $.Values.use_http_get}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ganglion-serve-http-key
+  name: ganglion-serve-http-key
+  namespace: {{ $.Values.namespace }}
+spec:
+  ports:
+  - name: web
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: ganglion-serve-http-key
+  type: ClusterIP
+{{- end }}

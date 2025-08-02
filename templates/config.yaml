@@ -27,3 +27,13 @@ metadata:
 stringData:
   username: "{{ $.Values.device_username }}"
   password: "{{ $.Values.device_password }}"
+{{ if $.Values.crypto_key }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ganglion-crypto_key-secret
+  namespace: {{ $.Values.namespace }}
+stringData:
+  key: "{{ $.Values.crypto_key }}"
+{{ end }}

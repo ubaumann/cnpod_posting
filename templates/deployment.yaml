@@ -24,6 +24,13 @@ spec:
                 configMapKeyRef:
                   name: ganglion-accounts
                   key: accounts
+{{- if $.Values.crypto_key }}
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ganglion-crypto_key-secret
+                  key: key
+{{- end }}
           resources:
             requests:
               cpu: {{ $.Values.resources_requests_cpu_ganglion }}
@@ -51,6 +58,24 @@ spec:
           volumeMounts:
             - name: ganglion-sqlite-vol
               mountPath: /data/db
+{{- if $.Values.use_http_get}}
+        - name: ganglion-serve-http-key
+          image: python:3.13
+          workingDir: "/data/.keys"
+          command: ["python", "-m", "http.server"]
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              cpu: {{ $.Values.resources_requests_cpu_ganglion }}
+              memory: {{ $.Values.resources_requests_memory_ganglion }}
+            limits:
+              cpu: {{ $.Values.resources_limits_cpu_ganglion }}
+              memory: {{ $.Values.resources_limits_memory_ganglion }}
+          volumeMounts:
+            - name: ganglion-token-vol
+              mountPath: /data/.keys
+{{- end }}
       volumes:
         - name: ganglion-token-vol
           persistentVolumeClaim:
@@ -109,6 +134,18 @@ spec:
               value: {{ $pod }}
             - name: API_SERVER
               value: ganglion:80
+{{- if $.Values.use_http_get}}
+            - name: KEY_LOCATION
+              value: "http://ganglion-serve-http-key:8000"
+{{- end }}
+{{- if $.Values.crypto_key }}
+            - name: DECRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ganglion-crypto_key-secret
+                  key: key
+{{- end }}
+{{- if not $.Values.use_http_get}}
           volumeMounts:
             - name: ganglion-token-vol
               mountPath: /data/.keys
@@ -117,5 +154,6 @@ spec:
         - name: ganglion-token-vol
           persistentVolumeClaim:
             claimName: ganglion-token-pvc
+{{- end }}
 {{- end }}
 {{- end }}
