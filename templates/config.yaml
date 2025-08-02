@@ -32,7 +32,7 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: ganglion-crypto_key-secret
+  name: ganglion-crypto-key-secret
   namespace: {{ $.Values.namespace }}
 stringData:
   key: "{{ $.Values.crypto_key }}"

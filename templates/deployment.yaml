@@ -28,7 +28,7 @@ spec:
             - name: ENCRYPTION_KEY
               valueFrom:
                 secretKeyRef:
-                  name: ganglion-crypto_key-secret
+                  name: ganglion-crypto-key-secret
                   key: key
 {{- end }}
           resources:
@@ -136,13 +136,13 @@ spec:
               value: ganglion:80
 {{- if $.Values.use_http_get}}
             - name: KEY_LOCATION
-              value: "http://ganglion-serve-http-key:8000"
+              value: "http://ganglion:8000"
 {{- end }}
 {{- if $.Values.crypto_key }}
             - name: DECRYPTION_KEY
               valueFrom:
                 secretKeyRef:
-                  name: ganglion-crypto_key-secret
+                  name: ganglion-crypto-key-secret
                   key: key
 {{- end }}
 {{- if not $.Values.use_http_get}}
