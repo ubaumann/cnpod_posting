@@ -18,8 +18,8 @@ device_password: addmin
 
 ingress_fqdn: posting.stud.network.garden
 
-image_ganglion: ghcr.io/ubaumann/cnpod_posting:v0.1.0
-image_posting: ghcr.io/ubaumann/cn_posting_collection:v0.1.0
+image_ganglion: ghcr.io/ubaumann/cnpod_posting:v0.1.1
+image_posting: ghcr.io/ubaumann/cn_posting_collection:v0.1.2
 
 # Used for encryption of API keys
 crypto_key:  # "yJ3RNNOyeGc2NRVzR4PbwKf79_D9fQtlvCL7cIcXJKQ="  # Example key, replace with your own
