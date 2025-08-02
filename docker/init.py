@@ -11,7 +11,7 @@ from ganglion.cli import app
 
 KEY_DIRECTORY = Path(".keys/")
 CONFIG_FILE = "ganglion-local.toml"
-
+ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY", None)
 
 async def _create_account(account_name: str) -> str:
     account, api_key = await create_account(account_name, account_name, [])
@@ -46,22 +46,29 @@ async def main():
     await init_db(config)
     async with db_session() as session:
         # user = await create_user("name", "email", "password")
-        account_names = os.getenv("ACCOUNTS", "").split(";")
-        for account_name in account_names:
-            key_file = KEY_DIRECTORY / account_name
-            if await check_account_slug(account_name):
-                key = await _create_account(account_name)
-            elif not key_file.exists():
-                key = await _get_api_key(account_name, session)
-            else:
-                print(
-                    f"Account slug '{account_name}' already exists, skipping creation."
-                )
-                continue
+        if account_string := os.getenv("ACCOUNTS"):
+            account_names = account_string.split(";")
+            for account_name in account_names:
+                key_file = KEY_DIRECTORY / account_name
+                if await check_account_slug(account_name):
+                    key = await _create_account(account_name)
+                elif not key_file.exists():
+                    key = await _get_api_key(account_name, session)
+                else:
+                    print(
+                        f"Account slug '{account_name}' already exists, skipping creation."
+                    )
+                    continue
 
-            print(f"Write API key to {key_file}")
-            with key_file.open("w") as fp:
-                fp.write(key)
+                if ENCRYPTION_KEY:
+                    from cryptography.fernet import Fernet
+
+                    fernet = Fernet(ENCRYPTION_KEY)
+                    key = fernet.encrypt(key.encode()).decode()
+
+                print(f"Write API key to {key_file}")
+                with key_file.open("w") as fp:
+                    fp.write(key)
 
 
 if __name__ == "__main__":

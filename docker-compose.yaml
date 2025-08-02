@@ -26,6 +26,7 @@ services:
       - API_SERVER=ganglion:8080
       - APP_NAME=sw01
       - APP_ACCOUNT=pod-1
+      - DECRYPTION_KEY=yJ3RNNOyeGc2NRVzR4PbwKf79_D9fQtlvCL7cIcXJKQ=
     depends_on:
       ganglion:
         condition: service_healthy
@@ -42,6 +43,7 @@ services:
       - API_SERVER=ganglion:8080
       - APP_NAME=sw02
       - APP_ACCOUNT=pod-1
+      - DECRYPTION_KEY=yJ3RNNOyeGc2NRVzR4PbwKf79_D9fQtlvCL7cIcXJKQ=
     depends_on:
       ganglion:
         condition: service_healthy
