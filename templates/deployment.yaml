@@ -55,6 +55,9 @@ spec:
             limits:
               cpu: {{ $.Values.resources_limits_cpu_ganglion }}
               memory: {{ $.Values.resources_limits_memory_ganglion }}
+          env:
+            - name: PUBLIC_URL
+              value: {{ $.Values.ingress_fqdn }}
           volumeMounts:
             - name: ganglion-sqlite-vol
               mountPath: /data/db
