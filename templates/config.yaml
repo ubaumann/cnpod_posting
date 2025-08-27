@@ -15,7 +15,7 @@ metadata:
   name: device-{{ . }}-{{ $pod }}
   namespace: {{ $.Values.namespace }}
 data:
-  hostname: "{{ . }}-pod-{{ $pod }}.network.garden"
+  hostname: "{{ . }}-{{ $pod }}.network.garden"
 {{- end }}
 {{- end }}
 ---
