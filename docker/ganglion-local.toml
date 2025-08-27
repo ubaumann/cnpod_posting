@@ -1,10 +1,10 @@
 [server]
 # The base URL where ganglion serves from
-base_url = "http://${PUBLIC_URL}"
+base_url = "${HTTP_PROTOCOL}://${PUBLIC_URL}"
 # The URL for applications
-app_url_format = "http://${PUBLIC_URL}/{account}/{application}"
+app_url_format = "${HTTP_PROTOCOL}://${PUBLIC_URL}/{account}/{application}"
 # The websocket URL where applications are served from
-app_websocket_url = "ws://${PUBLIC_URL}"
+app_websocket_url = "${WS_PROTOCOL}://${PUBLIC_URL}"
 
 [templates]
 # Root directory for templates

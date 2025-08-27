@@ -58,6 +58,10 @@ spec:
           env:
             - name: PUBLIC_URL
               value: {{ $.Values.ingress_fqdn }}
+            - name: WS_PROTOCOL
+              value: {{ if $.Values.ingress_wss}}wss{{ else }}ws{{ end }}
+            - name: HTTP_PROTOCOL
+              value: {{ if $.Values.ingress_https}}https{{ else }}http{{ end }}
           volumeMounts:
             - name: ganglion-sqlite-vol
               mountPath: /data/db

@@ -17,8 +17,10 @@ device_username: addmin
 device_password: addmin
 
 ingress_fqdn: posting.stud.network.garden
+ingress_https: true
+ingress_wss: true
 
-image_ganglion: ghcr.io/ubaumann/cnpod_posting:v0.1.2
+image_ganglion: ghcr.io/ubaumann/cnpod_posting:v0.1.3
 image_posting: ghcr.io/ubaumann/cn_posting_collection:v0.1.2
 
 # Used for encryption of API keys

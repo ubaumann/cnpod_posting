@@ -2,6 +2,6 @@ apiVersion: v2
 name: cn_posting_chart
 description: A Helm chart for CN Lab Posting setup 
 type: application
-version: 0.1.2
+version: 0.1.3
 
 appVersion: "0.1.0"

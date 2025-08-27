@@ -4,6 +4,7 @@ services:
     environment:
       - ACCOUNTS=pod-1;pod-2
       - ENCRYPTION_KEY=yJ3RNNOyeGc2NRVzR4PbwKf79_D9fQtlvCL7cIcXJKQ=
+      - PUBLIC_URL=${PUBLIC_URL:-localhost:8080}
     ports:
       - "8080:8080"
     command: ["sh", "-c", "python init.py && ganglion serve --config ganglion-local.toml"]
