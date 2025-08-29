@@ -10,7 +10,10 @@ spec:
   resources:
     requests:
       storage: 265M
-  storageClassName:
+  {{- if (lookup "v1" "PersistentVolumeClaim" $.Values.namespace "ganglion-sqlite-pvc") }}
+  storageClassName: {{ (lookup "v1" "PersistentVolumeClaim" $.Values.namespace "ganglion-sqlite-pvc").spec.storageClassName }}
+  volumeName: {{ (lookup "v1" "PersistentVolumeClaim" $.Values.namespace "ganglion-sqlite-pvc").spec.volumeName }}
+  {{- end }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -24,3 +27,7 @@ spec:
     requests:
       storage: 265M
   storageClassName:
+  {{- if (lookup "v1" "PersistentVolumeClaim" $.Values.namespace "ganglion-token-pvc") }}
+  storageClassName: {{ (lookup "v1" "PersistentVolumeClaim" $.Values.namespace "ganglion-token-pvc").spec.storageClassName }}
+  volumeName: {{ (lookup "v1" "PersistentVolumeClaim" $.Values.namespace "ganglion-token-pvc").spec.volumeName }}
+  {{- end }}
