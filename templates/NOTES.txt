@@ -1,1 +1,2 @@
-1. Get the application URL by running these commands:
+Access the posting application at: {{ if $.Values.ingress_https}}https{{ else }}http{{ end }}://{{ $.Values.ingress_fqdn }}/<pod-y>/<deviceXX>
+For Example: {{ if $.Values.ingress_https}}https{{ else }}http{{ end }}://{{ $.Values.ingress_fqdn }}/pod-1/sw01
