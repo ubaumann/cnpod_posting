@@ -13,8 +13,8 @@ pods:
   - pod-9
 devices: ["sw01", "sw02", "sw03", "sw04", "rt01", "rt02" ]
 device_mgmt_cidr: 10.8.40.0/24
-device_username: addmin
-device_password: addmin
+device_username: admin
+device_password: admin
 
 ingress_fqdn: posting.stud.network.garden
 ingress_https: true
